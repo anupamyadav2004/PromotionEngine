@@ -7,13 +7,13 @@ namespace PromotionEngine.UnitTests.Repository
 {
     public class ProductRepositoryTests
     {
-        readonly IProductRepository _productRepository = new ProductRepository();
+        readonly IProductRepository _sut = new ProductRepository();
 
         [Theory]
         [MemberData(nameof(Basket))]
         public void ReturnsProduct(string id, decimal price)
         {
-            var product = _productRepository.Get(id);
+            var product = _sut.Get(id);
 
             id.ShouldBe(product.Id);
             price.ShouldBe(product.Price);

@@ -19,10 +19,6 @@ namespace PromotionEngine.UnitTests.Promotions
         readonly IPromotion _mixProductPromotion;
 
         readonly List<Product> _noPromotionProducts = new List<Product>();
-        readonly IPromotion _noPromotion;
-
-        readonly List<Product> _multipleProducts = new List<Product>();
-        readonly IPromotion _multipleProductPromotion;
 
         public PromotionOfferFacts()
         {
@@ -30,9 +26,6 @@ namespace PromotionEngine.UnitTests.Promotions
             _doubleBPromotion = new Promotion("B", 2, "B", 0.5m);
             _mixProductPromotion = new Promotion("C", 1, "D", 0.33m);
             _noPromotionProducts.AddRange(Enumerable.Repeat(new Product("C", 20m), 3));
-
-            _multipleProductPromotion = new Promotion("A", 3, "A", 0.4m);
-            _multipleProductPromotion = new Promotion("C", 1, "D", 0.33m);
         }
 
         [Fact]
