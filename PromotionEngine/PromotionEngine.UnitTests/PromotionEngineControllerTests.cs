@@ -10,6 +10,7 @@ namespace PromotionEngine.UnitTests
     {
         readonly Mock<IProductRepository> _productRepo = new Mock<IProductRepository>();
         readonly Mock<ICheckout> _checkout;
+        readonly Mock<ICheckoutTotalRenderer> renderer = new Mock<ICheckoutTotalRenderer>();
         readonly CheckoutTotal _checkoutTotal = new CheckoutTotal();
         readonly PromotionEngineController _sut;
         readonly Product _product1 = new Product("A", 50m);
@@ -19,7 +20,7 @@ namespace PromotionEngine.UnitTests
         public PromotionEngineControllerTests()
         {
             _checkout = new Mock<ICheckout>();
-            _sut = new PromotionEngineController(_productRepo.Object, _checkout.Object);
+            _sut = new PromotionEngineController(_productRepo.Object, _checkout.Object, renderer.Object);
             _productIds = new[] { _product1.Id, _product2.Id };
             _productRepo.Setup(x => x.Get(_product1.Id)).Returns(_product1);
             _productRepo.Setup(x => x.Get(_product2.Id)).Returns(_product2);
@@ -47,6 +48,13 @@ namespace PromotionEngine.UnitTests
         {
             _sut.Run(_productIds);
             _checkout.Verify(x => x.Total());
+        }
+
+        [Fact]
+        public void BasketTotalRendered()
+        {
+            _sut.Run(_productIds);
+            renderer.Verify(x => x.Render(_checkoutTotal));
         }
     }
 }
