@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PromotionEngine.Services.Promotions
 {
@@ -14,7 +16,11 @@ namespace PromotionEngine.Services.Promotions
 
         public decimal CalculateDiscount(IEnumerable<Product> products)
         {
-            return 0m;
+            var qualifyingProductCount = products.Count(x => x.Id == QualifyingProductId);
+            var qualifyingCount = qualifyingProductCount / QuantityToQualify;
+            var discountableProducts = products.Where(x => x.Id == DiscountProductId).Take(qualifyingCount);
+            var discount = Math.Round(discountableProducts.Sum(x => x.Price * DiscountPercentage));
+            return discount;
         }
 
         public string QualifyingProductId { get; private set; }
