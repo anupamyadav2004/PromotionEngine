@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using PromotionEngine.Services.Repository;
+using Shouldly;
 using Xunit;
 
 namespace PromotionEngine.UnitTests.Repository
@@ -14,8 +15,8 @@ namespace PromotionEngine.UnitTests.Repository
         {
             var product = _productRepository.Get(id);
 
-            Assert.Equal(id, product.Id);
-            Assert.Equal(price, product.Price);
+            id.ShouldBe(product.Id);
+            price.ShouldBe(product.Price);
         }
 
         public static IEnumerable<object[]> Basket
